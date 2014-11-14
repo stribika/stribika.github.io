@@ -17,7 +17,7 @@ Unless you have a public account every tweet you ever sent is preserved forever 
 However, there is a slight difference between just having it out there and having it analyzed, flagged, and e-mailed out to people.
 Insurance companies could refuse contracts or ask for higher fees if they know you are a "riskier" customer.
 
-Naturally, whenever Twitter does something stupid, the topic of writing a distributed replacament comes up.
+Naturally, whenever Twitter does something stupid, the topic of writing a distributed replacement comes up.
 But how would we do better?
 We'd like to keep it public, that's the best part of Twitter, but we don't want to allow anyone to collect all tweets.
 The only difference between a normal user and a scraper is the number of followed users and, in turn, the number of tweets read per second.
