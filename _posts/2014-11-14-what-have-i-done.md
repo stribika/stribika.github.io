@@ -50,9 +50,9 @@ Let's try to count how many n character programs there are and the way to genera
   * That's <code>6 * f(n - 1) + sum([ f(k - 1) * f(n - k - 1) for k in range(1, n) ])</code>.
     Cool.
 
-It's easy to see that this is between n^6 and n^7 but I can't be arsed to give you an exact number.
+It's easy to see that this is between 6^n and 7^n but I can't be arsed to give you an exact number.
 It's not important, there are enough.
-By following the above description and choosing the first character randomly from the 7 possible, then choosing k from uniformly if needed, then repeat recursively, we have will pick each program with the same probability.
+By following the above description and choosing the first character randomly from the 7 possible, then choosing k from uniformly if needed, then repeat recursively, we will pick each program with the same probability.
 
 Now, there are *few things* we have to pay attention to when writing cryptographic code.
 One of the most important things is making sure the runtime of the algorithm does not depend on secret values.
