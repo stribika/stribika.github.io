@@ -13,7 +13,7 @@ Why would I do something like that?
 Well, it all started with a new Twitter [app][samaritans-radar] which scrapes the website, stores all the tweets, greps for suicidal thoughts and sends alerts to friends.
 Sounds like a good idea, excepts it's really not and it raises privacy concerns.
 True, Twitter is a public website.
-Unless you have a public account every tweet you ever sent is preserved forever and publicly available.
+Unless you have a private account every tweet you ever sent is preserved forever and publicly available.
 However, there is a slight difference between just having it out there and having it analyzed, flagged, and e-mailed out to people.
 Insurance companies could refuse contracts or ask for higher fees if they know you are a "riskier" customer.
 
