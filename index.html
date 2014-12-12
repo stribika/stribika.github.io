@@ -15,7 +15,9 @@ layout: default
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
 
-        <p>{{ post.excerpt }}</p>
+        {{ post.excerpt }}
+
+        <p class="post-meta">{{ post.tags | sort | array_to_sentence_string }}</p>
       </li>
     {% endfor %}
   </ul>
