@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Let's apply pando-logic to Pando"
-tags: [conspiracy-theory,funding,tor,pandobot,pandofilth,pandotard]
+tags: [conspiracy-theory,funding,tor,pandobot,pandofilth,pandotard,sarcasm-sign]
 ---
 
 In this July, blogger Yasha Levine published a [blockbuster][pando-bullshit] story in conjunction with Pando Daily.
