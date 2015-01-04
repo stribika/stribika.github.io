@@ -15,7 +15,7 @@ TL;DR: Scan this post for fixed width fonts, these will be the config file snipp
 # The crypto
 
 Reading the documents, I have the feeling that the NSA can 1) decrypt weak crypto and 2) steal keys.
-Let's focus on the crypto works.
+Let's focus on the crypto first.
 SSH supports different key exchange algorithms, ciphers and message authentication codes.
 The server and the client choose a set of algorithms supported by both, then proceed with the key exchange.
 Some of the supported algorithms are not so great and should be disabled completely.
