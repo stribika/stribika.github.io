@@ -330,6 +330,24 @@ I don't know.
 Unfortunately, you can't encrypt your server key and it must be always available, or else sshd won't start.
 The only thing protecting it is OS access controls.
 
+# The end
+
+It's probably a good idea to test the changes.
+`ssh -v` will print the selected algorithms and also makes problems easier to spot.
+
+Can you make these changes?
+If the answer is yes, then...
+
+![NSA Happy Dance](/assets/nsa-happy-dance.png "Happy Dance!!")
+
+If the answer is no, it's probably due to compatibility problems.
+You can try to convince the other side to upgrade their security and turn it into a yes.
+
+If you work for a big company and change management doesn't let you do it, I'm sorry.
+I've seen the v1 protocol enabled in such places.
+There is no chance of improvement.
+Give up to preseve your sanity.
+
 [snowden-docs]: https://www.spiegel.de/international/germany/inside-the-nsa-s-war-on-internet-security-a-1010361.html
 [dh]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
 [ecdh]: https://en.wikipedia.org/wiki/Elliptic_curve_Diffie%E2%80%93Hellman
