@@ -8,7 +8,7 @@ You may have heard that the NSA can decrypt SSH at least some of the time.
 If you have not, then read the [latest batch of Snowden documents][snowden-docs] now.
 All of it.
 This post will still be here when you finish.
-The goal of this post is to try and make sure we are safe.
+My goal with this post here is to make NSA analysts sad.
 
 TL;DR: Scan this post for fixed width fonts, these will be the config file snippets and commands you have to use.
 
@@ -81,9 +81,14 @@ We have to look at 3 things here:
 We are left with 1 and 5.
 1 is better and it's perfectly OK to only support that but for interoperability, 5 can be included.
 
-Recommended `/etc/ssh/sshd_config` and `/etc/ssh/ssh_config` line:
+Recommended `/etc/ssh/sshd_config` snippet:
 
-<code>KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code>
+<pre><code>KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
+
+Recommended `/etc/ssh/ssh_config` snippet:
+
+<pre><code>Host *
+    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
 
 If you chose to enable 5, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2048.
 If it does not exist, create it:
@@ -129,6 +134,11 @@ Unfortunately, DSA keys must be exactly 1024 bits so let's disable that as well.
 rm ssh_host_dsa_key*
 ln -s ssh_host_dsa_key ssh_host_dsa_key</code></pre>
 
+Generate client keys using the following commands:
+
+<pre><code>ssh-keygen -t ed25519
+ssh-keygen -t rsa -b 4096</code></pre>
+
 ## Symmetric ciphers
 
 Symmetric ciphers are used to encrypt the data after the initial key exchange and authentication is complete.
@@ -167,9 +177,14 @@ We have to consider the following:
 
 This leaves 5-9 and 15.
 
-Recommended `/etc/ssh/sshd_config` and `/etc/ssh/ssh_config` line:
+Recommended `/etc/ssh/sshd_config` snippet: 
 
-<code>Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code>
+<pre><code>Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
+
+Recommended `/etc/ssh/ssh_config` snippet:
+
+<pre><code>Host *
+    Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 ## Message authentication codes
 
@@ -232,13 +247,88 @@ The selection considerations:
   At least 128 bits.
   This doesn't eliminate anything at this point.
 
-Recommended `/etc/ssh/sshd_config` and `/etc/ssh/ssh_config` line:
+Recommended `/etc/ssh/sshd_config` snippet: 
 
-<code>MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com</code>
+<pre><code>MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com</code></pre>
+
+Recommended `/etc/ssh/ssh_config` snippet:
+
+<pre><code># Github supports neither AE nor Encrypt-then-MAC. LOL
+Host github.com
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512
+
+Host *
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com</code></pre>
 
 # Preventing key theft
 
-TODO
+Even with forward secrecy the secret keys must be kept secret.
+The NSA has a database of stolen keys - you do not want your key there.
+
+## System hardening
+
+This post is not intended to be a comprehensive system security guide.
+Very briefly:
+
+* *Don't install what you don't need*:
+  Every single line of code has a chance of containing a bug.
+  Some of these bugs are security holes.
+  Fewer lines, fewer holes.
+* *Use free software*:
+  As in speech.
+  You want to use code that's actually reviewed or that you can review yourself.
+  There is no way to achieve that without source code.
+  Someone may have reviewed proprietary crap but who knows.
+* *Keep your software up to date*:
+  New versions often fix critical security holes.
+* *Exploit mitigation*:
+  Sad but true - there will always be security holes in your software.
+  There are things you can do to prevent their exploitation such GCC's -fstack-protector.
+  One of the best security projects out there is [Grsecurity][grsec].
+  Use it or use OpenBSD.
+
+## Traffic analysis resistance
+
+Set up [Tor hidden services][tor-hs] for your SSH servers.
+This has multiple advantages.
+It provides an additional layer of encryption and server authentication.
+People looking at your traffic will not know your IP, so they will be unable to scan and target other services running on the same server and client.
+Attackers can still attack these services but don't know if it has anything to do with the observed traffic until they actually break in.
+
+Now this is only true if you don't disclose your SSH server's fingerprint in any other way.
+You should only accept connections from the hidden service or from LAN, if required.
+
+If you don't need LAN access, you can add the following line to `/etc/ssh/sshd_config`:
+
+<code>ListenAddress 127.0.0.1:22</code>
+
+Add this to `/etc/tor/torrc`:
+
+<pre><code>HiddenServiceDir /var/lib/tor/hidden_service/ssh
+HiddenServicePort 22 127.0.0.1:22</code></pre>
+
+You will find the hostname you have to use in `/var/lib/tor/hidden_service/ssh/hostname`.
+You also have to configure the client to use Tor.
+For this, socat will be needed.
+Add the following line to `/etc/ssh/ssh_config`:
+
+<pre><code>Host *.onion
+    ProxyCommand socat - SOCKS4A:localhost:%h:%p,socksport=9050
+
+Host *
+    ...</code></pre>
+
+If you want to allow connections from LAN, don't use the `ListenAddress` line, configure your firewall instead.
+
+## Key storage
+
+You should encrypt your client key files using a strong password.
+You may want to store them on a pendrive and only plug it in when you want to use SSH.
+Are you more likely to lose your pendrive or have your system compromised?
+I don't know.
+
+Unfortunately, you can't encrypt your server key and it must be always available, or else sshd won't start.
+The only thing protecting it is OS access controls.
 
 [snowden-docs]: https://www.spiegel.de/international/germany/inside-the-nsa-s-war-on-internet-security-a-1010361.html
 [dh]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
@@ -251,3 +341,5 @@ TODO
 [nist-sucks]: http://blog.cr.yp.to/20140323-ecdsa.html
 [bullrun]: https://projectbullrun.org/dual-ec/vulnerability.html
 [ae]: https://en.wikipedia.org/wiki/Authenticated_encryption
+[grsec]: https://grsecurity.net/
+[tor-hs]: https://www.torproject.org/docs/hidden-services.html.en
