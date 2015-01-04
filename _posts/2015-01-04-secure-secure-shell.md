@@ -109,7 +109,7 @@ There are 4 public key algorithms for authentication:
 1. Ed25519
 1. RSA
 
-Number 3 here involves NIST suckage and should be disabled.
+Number 2 here involves NIST suckage and should be disabled.
 Unfortunately, there is no way to do that in the config files and even if you remove the corresponding key file, it will be regenerated on sshd restart.
 That is, unless you create a broken symlink:
 
