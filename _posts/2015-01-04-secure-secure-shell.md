@@ -330,6 +330,10 @@ The only thing protecting it is OS access controls.
 
 It's probably a good idea to test the changes.
 `ssh -v` will print the selected algorithms and also makes problems easier to spot.
+Be extremely careful when configuring SSH on a remote host.
+Always keep an active session, never restart sshd.
+Instead you can send the `SIGHUP` signal to reload the configuration without killing your session.
+You can be even more careful by starting a new sshd instance on a different port and testing that.
 
 Can you make these changes?
 If the answer is yes, then...
@@ -343,6 +347,16 @@ If you work for a big company and change management doesn't let you do it, I'm s
 I've seen the v1 protocol enabled in such places.
 There is no chance of improvement.
 Give up to preseve your sanity.
+
+Special thanks to the people of Twitter for the improvements:
+
+* [@ae_g_i_s](https://twitter.com/ae_g_i_s)
+* [@AkiTuomi](https://twitter.com/AkiTuomi)
+* [@cryptomilk](https://twitter.com/cryptomilk)
+* [@eckes](https://twitter.com/eckes)
+* [@ioerror](https://twitter.com/ioerror)
+* [@mathandemotion](https://twitter.com/mathandemotion)
+* [@ThomasJWaldmann](https://twitter.com/ThomasJWaldmann)
 
 [snowden-docs]: https://www.spiegel.de/international/germany/inside-the-nsa-s-war-on-internet-security-a-1010361.html
 [dh]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
