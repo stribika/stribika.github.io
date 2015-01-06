@@ -174,6 +174,7 @@ We have to consider the following:
   This elminates 14 because CAST has a 64 bit block size.
 * *Cipher mode*:
   The recommended approach here is to prefer [AE][ae] modes and optionally allow CTR for compatibility.
+  CTR with Encrypt-then-MAC is provably secure.
 
 This leaves 5-9 and 15.
 
@@ -206,7 +207,7 @@ The reason for this is that the more you fiddle with an attacker provided messag
 In case of Encrypt-then-MAC, the MAC is verified and if incorrect, discarded.
 Boom, one step, no timing channels.
 In case of MAC-then-encrypt, first the attacker provided message has to be decrypted and only then can you verify it.
-Decryption failure may take less time than verification failure.
+Decryption failure (due to invalid CBC padding for example) may take less time than verification failure.
 Encrypt-and-MAC also has to be decrypted first, leading to the same kind of potential side channels.
 It's even worse because no one said that a MAC's output can't leak what its input was.
 SSH by default, uses this method.
@@ -240,6 +241,8 @@ The selection considerations:
   Disable weak crypto today.
 * *Encrypt-then-MAC only*:
   This eliminates the first half, the ones without -etm.
+  You may be forced to enable non-etm algorithms on for some hosts (khm, github).
+  I am not aware of a security proof for CTR-and-HMAC but I also don't think CTR decryption can fail.
 * *Tag size*:
   At least 256 bits.
   This eliminates UMAC and RIPEMD160.
