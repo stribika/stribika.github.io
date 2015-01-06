@@ -244,24 +244,24 @@ The selection considerations:
   You may be forced to enable non-etm algorithms on for some hosts (khm, github).
   I am not aware of a security proof for CTR-and-HMAC but I also don't think CTR decryption can fail.
 * *Tag size*:
-  At least 256 bits.
-  This eliminates UMAC and RIPEMD160.
+  At least 128 bits.
+  This eliminates umac-64-etm.
 * *Key size*:
   At least 128 bits.
   This doesn't eliminate anything at this point.
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
-<pre><code>MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com</code></pre>
+<pre><code>MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code># Github supports neither AE nor Encrypt-then-MAC. LOL
 Host github.com
-    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512
 
 Host *
-    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com</code></pre>
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com</code></pre>
 
 # Preventing key theft
 
