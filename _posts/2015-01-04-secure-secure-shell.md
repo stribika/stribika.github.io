@@ -110,29 +110,21 @@ There are 4 public key algorithms for authentication:
 1. RSA
 
 Number 2 here involves NIST suckage and should be disabled.
-Unfortunately, there is no way to do that in the config files and even if you remove the corresponding key file, it will be regenerated on sshd restart.
-That is, unless you create a broken symlink:
-
-<pre><code>cd /etc/ssh
-rm ssh_host_ecdsa_key*
-rm ssh_host_key*
-ln -s ssh_host_ecdsa_key ssh_host_ecdsa_key
-ln -s ssh_host_key ssh_host_key</code></pre>
-
-This will also disable the horribly broken v1 protocol that you should not have enabled in the first place.
-
-We should generate a bigger RSA key.
-
-<pre><code>cd /etc/ssh
-rm ssh_host_rsa_key*
-ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null
-</code></pre>
-
 Unfortunately, DSA keys must be exactly 1024 bits so let's disable that as well.
 
+<pre><code>Protocol 2
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key</code></pre>
+
+This will also disable the horribly broken v1 protocol that you should not have enabled in the first place.
+We should remove the unused keys and only generate a large RSA key and an Ed25519 key.
+Your init scripts may recreate the unused keys.
+If you don't want that, remove any `ssh-keygen` commands from the init script.
+
 <pre><code>cd /etc/ssh
-rm ssh_host_dsa_key*
-ln -s ssh_host_dsa_key ssh_host_dsa_key</code></pre>
+rm ssh_host_*key*
+ssh-keyget -t ed25519 -f ssh_host_ed25519_key < /dev/null
+ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null</code></pre>
 
 Generate client keys using the following commands:
 
