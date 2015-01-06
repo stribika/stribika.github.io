@@ -56,7 +56,7 @@ k = KDF(s)      k = KDF(s)</code></pre>
 
 OpenSSH supports 8 key exchange protocols:
 
-1. curve25519-sha256: ECDH over [Curve25519][curve25519] with SHA2
+1. [curve25519-sha256][libsshdoc]: ECDH over [Curve25519][curve25519] with SHA2
 1. [diffie-hellman-group1-sha1][rfc4253]: 1024 bit DH with SHA1
 1. [diffie-hellman-group14-sha1][rfc4253]: 2048 bit DH with SHA1
 1. [diffie-hellman-group-exchange-sha1][rfc4419]: Custom DH with SHA1
@@ -106,7 +106,7 @@ There are 4 public key algorithms for authentication:
 
 1. DSA
 1. ECDSA
-1. Ed25519
+1. [Ed25519][ed25519]
 1. RSA
 
 Number 2 here involves NIST suckage and should be disabled.
@@ -353,9 +353,11 @@ Give up to preseve your sanity.
 [ecdh]: https://en.wikipedia.org/wiki/Elliptic_curve_Diffie%E2%80%93Hellman
 [forward-secrecy]: https://en.wikipedia.org/wiki/Forward_secrecy
 [dlp]: https://en.wikipedia.org/wiki/Discrete_logarithm_problem
-[curve25519]: http://ed25519.cr.yp.to/
+[libsshdoc]: http://git.libssh.org/projects/libssh.git/tree/doc/curve25519-sha256@libssh.org.txt
+[curve25519]: http://cr.yp.to/ecdh.html
 [rfc4253]: https://www.ietf.org/rfc/rfc4253.txt
 [rfc4419]: https://www.ietf.org/rfc/rfc4419.txt
+[ed25519]: http://ed25519.cr.yp.to/
 [nist-sucks]: http://blog.cr.yp.to/20140323-ecdsa.html
 [bullrun]: https://projectbullrun.org/dual-ec/vulnerability.html
 [ae]: https://en.wikipedia.org/wiki/Authenticated_encryption
