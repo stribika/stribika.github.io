@@ -123,7 +123,7 @@ If you don't want that, remove any `ssh-keygen` commands from the init script.
 
 <pre><code>cd /etc/ssh
 rm ssh_host_*key*
-ssh-keyget -t ed25519 -f ssh_host_ed25519_key < /dev/null
+ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
 ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null</code></pre>
 
 Generate client keys using the following commands:
@@ -357,6 +357,7 @@ Special thanks to the people of Twitter for the improvements:
 * [@ioerror](https://twitter.com/ioerror)
 * [@mathandemotion](https://twitter.com/mathandemotion)
 * [@ThomasJWaldmann](https://twitter.com/ThomasJWaldmann)
+* [@TimelessP](https://twitter.com/TimelessP)
 
 [snowden-docs]: https://www.spiegel.de/international/germany/inside-the-nsa-s-war-on-internet-security-a-1010361.html
 [dh]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
