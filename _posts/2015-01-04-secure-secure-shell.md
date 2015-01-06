@@ -319,6 +319,7 @@ If you want to allow connections from LAN, don't use the `ListenAddress` line, c
 ## Key storage
 
 You should encrypt your client key files using a strong password.
+Additionally, you can use `ssh-keygen -a $number` to slow down cracking attempts by iterating the hash function many times.
 You may want to store them on a pendrive and only plug it in when you want to use SSH.
 Are you more likely to lose your pendrive or have your system compromised?
 I don't know.
@@ -354,7 +355,9 @@ Special thanks to the people of Twitter for the improvements:
 * [@AkiTuomi](https://twitter.com/AkiTuomi)
 * [@cryptomilk](https://twitter.com/cryptomilk)
 * [@eckes](https://twitter.com/eckes)
+* [@goulaschcowboy](https://twitter.com/goulaschcowboy)
 * [@ioerror](https://twitter.com/ioerror)
+* [@jedisct1](https://twitter.com/jedisct1)
 * [@mathandemotion](https://twitter.com/mathandemotion)
 * [@ThomasJWaldmann](https://twitter.com/ThomasJWaldmann)
 * [@TimelessP](https://twitter.com/TimelessP)
