@@ -177,15 +177,16 @@ We have to consider the following:
   CTR with Encrypt-then-MAC is provably secure.
 
 This leaves 5-9 and 15.
+Chacha20-poly1305 is preferred over AES-GCM because the latter [does not encrypt message sizes][chacha20-poly1305].
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
-<pre><code>Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
+<pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code>Host *
-    Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 ## Message authentication codes
 
@@ -364,5 +365,6 @@ Give up to preseve your sanity.
 [nist-sucks]: http://blog.cr.yp.to/20140323-ecdsa.html
 [bullrun]: https://projectbullrun.org/dual-ec/vulnerability.html
 [ae]: https://en.wikipedia.org/wiki/Authenticated_encryption
+[chacha20-poly1305]: http://blog.djm.net.au/2013/11/chacha20-and-poly1305-in-openssh.html
 [grsec]: https://grsecurity.net/
 [tor-hs]: https://www.torproject.org/docs/hidden-services.html.en
