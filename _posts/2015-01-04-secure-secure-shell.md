@@ -90,7 +90,7 @@ Recommended `/etc/ssh/ssh_config` snippet:
 <pre><code>Host *
     KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
 
-If you chose to enable 5, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2048.
+If you chose to enable 5, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2000.
 If it does not exist, create it:
 
 <pre><code>ssh-keygen -G /tmp/moduli -b 4096
