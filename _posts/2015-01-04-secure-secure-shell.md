@@ -355,6 +355,21 @@ Give up to preseve your sanity.
 
 Special thanks to the people of Twitter for the improvements.
 
+# ChangeLog
+
+You may have noticed that this document changed since last time.
+I want to be very transparent about this.
+There were two major changes:
+
+* I went from preferring GCM, to not preferring GCM, to finally dropping support for GCM.
+  This is because I didn't know SSH doesn't encrypt the size field when using GCM.
+  I have no idea why it does that.
+* I'm now allowing Encrypt-and-MAC algorithms with CTR ciphers as a last resort.
+  I initially thought it was possible to use downgrade attacks, I now think it is not.
+
+You can see the [full list of changes][changelog] on github.
+I promise not to use `git push -f`.
+
 [snowden-docs]: https://www.spiegel.de/international/germany/inside-the-nsa-s-war-on-internet-security-a-1010361.html
 [dh]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
 [ecdh]: https://en.wikipedia.org/wiki/Elliptic_curve_Diffie%E2%80%93Hellman
@@ -371,3 +386,4 @@ Special thanks to the people of Twitter for the improvements.
 [aes-gcm]: http://blog.djm.net.au/2013/11/chacha20-and-poly1305-in-openssh.html
 [grsec]: https://grsecurity.net/
 [tor-hs]: https://www.torproject.org/docs/hidden-services.html.en
+[changelog]: https://github.com/stribika/stribika.github.io/commits/master/_posts/2015-01-04-secure-secure-shell.md
