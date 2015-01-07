@@ -21,8 +21,9 @@ Let's focus on the crypto first.
 SSH supports different key exchange algorithms, ciphers and message authentication codes.
 The server and the client choose a set of algorithms supported by both, then proceed with the key exchange.
 Some of the supported algorithms are not so great and should be disabled completely.
-If you leave them enabled but prefer secure algorithms, then a man in the middle might downgrade you to bad ones.
 This hurts interoperability but everyone uses OpenSSH anyway.
+Fortunately, downgrade attacks are not possible because the supported algorithm lists are included in the key derivation.
+If a man in the middle were to change the lists, then the server and the client would calculate different keys.
 
 ## Key exchange
 
@@ -89,7 +90,11 @@ Recommended `/etc/ssh/sshd_config` snippet:
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code>Host *
+<pre><code># Github needs diffie-hellman-group-exchange-sha1 some of the time but not always.
+#Host github.com
+#    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1
+    
+Host *
     KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
 
 If you chose to enable 5, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2000.
@@ -170,17 +175,16 @@ We have to consider the following:
   The recommended approach here is to prefer [AE][ae] modes and optionally allow CTR for compatibility.
   CTR with Encrypt-then-MAC is provably secure.
 
-This leaves 5-9 and 15.
-Chacha20-poly1305 is preferred over AES-GCM because the latter [does not encrypt message sizes][chacha20-poly1305].
+AES-GCM is excluded not because a cryptographic weakness but because the SSH protocol [does not encrypt message sizes][aes-gcm] when it's in use.
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
-<pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
+<pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes128-ctr</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code>Host *
-    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
+    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes128-ctr</code></pre>
 
 ## Message authentication codes
 
@@ -234,10 +238,10 @@ The selection considerations:
   No MD5 and SHA1.
   Yes, I know that HMAC-SHA1 does not need collision resistance but why wait?
   Disable weak crypto today.
-* *Encrypt-then-MAC only*:
-  This eliminates the first half, the ones without -etm.
-  You may be forced to enable non-etm algorithms on for some hosts (github).
+* *Encrypt-then-MAC*:
   I am not aware of a security proof for CTR-and-HMAC but I also don't think CTR decryption can fail.
+  Since there are no downgrade attacks, you can add them to the end of the list.
+  You can also do this on a host by host basis so you know which ones are less safe.
 * *Tag size*:
   At least 128 bits.
   This eliminates umac-64-etm.
@@ -247,16 +251,12 @@ The selection considerations:
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
-<pre><code>MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com</code></pre>
+<pre><code>MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code># Github supports neither AE nor Encrypt-then-MAC.
-Host github.com
-    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
-
-Host *
-    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com</code></pre>
+<pre><code>Host *
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com</code></pre>
 
 # Preventing key theft
 
@@ -351,18 +351,7 @@ I've seen the v1 protocol enabled in such places.
 There is no chance of improvement.
 Give up to preseve your sanity.
 
-Special thanks to the people of Twitter for the improvements:
-
-* [@ae_g_i_s](https://twitter.com/ae_g_i_s)
-* [@AkiTuomi](https://twitter.com/AkiTuomi)
-* [@cryptomilk](https://twitter.com/cryptomilk)
-* [@eckes](https://twitter.com/eckes)
-* [@goulaschcowboy](https://twitter.com/goulaschcowboy)
-* [@ioerror](https://twitter.com/ioerror)
-* [@jedisct1](https://twitter.com/jedisct1)
-* [@mathandemotion](https://twitter.com/mathandemotion)
-* [@ThomasJWaldmann](https://twitter.com/ThomasJWaldmann)
-* [@TimelessP](https://twitter.com/TimelessP)
+Special thanks to the people of Twitter for the improvements.
 
 [snowden-docs]: https://www.spiegel.de/international/germany/inside-the-nsa-s-war-on-internet-security-a-1010361.html
 [dh]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
@@ -377,6 +366,6 @@ Special thanks to the people of Twitter for the improvements:
 [nist-sucks]: http://blog.cr.yp.to/20140323-ecdsa.html
 [bullrun]: https://projectbullrun.org/dual-ec/vulnerability.html
 [ae]: https://en.wikipedia.org/wiki/Authenticated_encryption
-[chacha20-poly1305]: http://blog.djm.net.au/2013/11/chacha20-and-poly1305-in-openssh.html
+[aes-gcm]: http://blog.djm.net.au/2013/11/chacha20-and-poly1305-in-openssh.html
 [grsec]: https://grsecurity.net/
 [tor-hs]: https://www.torproject.org/docs/hidden-services.html.en
