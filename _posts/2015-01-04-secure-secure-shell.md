@@ -92,7 +92,7 @@ Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code># Github needs diffie-hellman-group-exchange-sha1 some of the time but not always.
 #Host github.com
-#    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1
+#    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1
     
 Host *
     KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
