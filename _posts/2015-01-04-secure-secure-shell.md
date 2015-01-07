@@ -100,8 +100,9 @@ Host *
 If you chose to enable 5, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2000.
 If it does not exist, create it:
 
-<pre><code>ssh-keygen -G /tmp/moduli -b 4096
-ssh-keygen -T /etc/ssh/moduli -f /tmp/moduli</code></pre>
+<pre><code>ssh-keygen -G "${HOME}/moduli" -b 4096
+ssh-keygen -T /etc/ssh/moduli -f "${HOME}/moduli"
+rm ${HOME}/moduli</code></pre>
 
 This will take a while so continue while it's running.
 
