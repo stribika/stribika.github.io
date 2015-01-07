@@ -175,7 +175,8 @@ We have to consider the following:
   The recommended approach here is to prefer [AE][ae] modes and optionally allow CTR for compatibility.
   CTR with Encrypt-then-MAC is provably secure.
 
-AES-GCM is excluded not because a cryptographic weakness but because the SSH protocol [does not encrypt message sizes][aes-gcm] when it's in use.
+AES-GCM is excluded not because of a cryptographic weakness but because the SSH protocol [does not encrypt message sizes][aes-gcm] when it's in use.
+This allows some traffic analysis even without decrypting the data.
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
