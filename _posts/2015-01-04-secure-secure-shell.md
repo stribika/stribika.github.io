@@ -130,8 +130,8 @@ ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null</code></pre>
 
 Generate client keys using the following commands:
 
-<pre><code>ssh-keygen -t ed25519
-ssh-keygen -t rsa -b 4096</code></pre>
+<pre><code>ssh-keygen -t ed25519 -o -a 100
+ssh-keygen -t rsa -b 4096 -o -a 100</code></pre>
 
 ## Symmetric ciphers
 
@@ -321,7 +321,7 @@ If you want to allow connections from LAN, don't use the `ListenAddress` line, c
 ## Key storage
 
 You should encrypt your client key files using a strong password.
-Additionally, you can use `ssh-keygen -a $number` to slow down cracking attempts by iterating the hash function many times.
+Additionally, you can use `ssh-keygen -o -a $number` to slow down cracking attempts by iterating the hash function many times.
 You may want to store them on a pendrive and only plug it in when you want to use SSH.
 Are you more likely to lose your pendrive or have your system compromised?
 I don't know.
