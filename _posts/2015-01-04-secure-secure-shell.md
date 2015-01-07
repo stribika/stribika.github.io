@@ -173,7 +173,7 @@ We have to consider the following:
 This leaves 5-9 and 15.
 Chacha20-poly1305 is preferred over AES-GCM because the latter [does not encrypt message sizes][chacha20-poly1305].
 
-Recommended `/etc/ssh/sshd_config` snippet: 
+Recommended `/etc/ssh/sshd_config` snippet:
 
 <pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
@@ -245,7 +245,7 @@ The selection considerations:
   At least 128 bits.
   This doesn't eliminate anything at this point.
 
-Recommended `/etc/ssh/sshd_config` snippet: 
+Recommended `/etc/ssh/sshd_config` snippet:
 
 <pre><code>MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com</code></pre>
 
@@ -254,6 +254,10 @@ Recommended `/etc/ssh/ssh_config` snippet:
 <pre><code># Github supports neither AE nor Encrypt-then-MAC.
 Host github.com
     MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512
+
+# BitBucket supports md5 and sha1
+Host github.com
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha1-96
 
 Host *
     MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com</code></pre>
