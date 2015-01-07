@@ -102,7 +102,7 @@ If it does not exist, create it:
 
 <pre><code>ssh-keygen -G "${HOME}/moduli" -b 4096
 ssh-keygen -T /etc/ssh/moduli -f "${HOME}/moduli"
-rm ${HOME}/moduli</code></pre>
+rm "${HOME}/moduli"</code></pre>
 
 This will take a while so continue while it's running.
 
