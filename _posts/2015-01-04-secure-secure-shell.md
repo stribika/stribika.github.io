@@ -12,6 +12,8 @@ My goal with this post here is to make NSA analysts sad.
 
 TL;DR: Scan this post for fixed width fonts, these will be the config file snippets and commands you have to use.
 
+*Warning*: You will need a recent (2013 or so) OpenSSH version2013 or so.
+
 # The crypto
 
 Reading the documents, I have the feeling that the NSA can 1) decrypt weak crypto and 2) steal keys.
@@ -234,7 +236,7 @@ The selection considerations:
   Disable weak crypto today.
 * *Encrypt-then-MAC only*:
   This eliminates the first half, the ones without -etm.
-  You may be forced to enable non-etm algorithms on for some hosts (khm, github).
+  You may be forced to enable non-etm algorithms on for some hosts (github).
   I am not aware of a security proof for CTR-and-HMAC but I also don't think CTR decryption can fail.
 * *Tag size*:
   At least 128 bits.
@@ -249,7 +251,7 @@ Recommended `/etc/ssh/sshd_config` snippet:
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code># Github supports neither AE nor Encrypt-then-MAC. LOL
+<pre><code># Github supports neither AE nor Encrypt-then-MAC.
 Host github.com
     MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512
 
