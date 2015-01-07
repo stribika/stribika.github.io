@@ -180,12 +180,12 @@ This allows some traffic analysis even without decrypting the data.
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
-<pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes128-ctr</code></pre>
+<pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code>Host *
-    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes128-ctr</code></pre>
+    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 ## Message authentication codes
 
