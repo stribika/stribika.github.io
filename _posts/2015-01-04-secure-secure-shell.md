@@ -90,7 +90,7 @@ Recommended `/etc/ssh/sshd_config` snippet:
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code># Github needs different Algorithms some of the time but not always.
+<pre><code># Github needs different algorithms some of the time but not always.
 #Host github.com
 #    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1
     
