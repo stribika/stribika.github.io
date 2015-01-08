@@ -110,19 +110,21 @@ This will take a while so continue while it's running.
 
 The key exchange ensures that the server and the client shares a secret no one else knows.
 We also have to make sure that they share this secret with each other and not an NSA analyst.
+We do that with digital signatures.
+Since digital signatures are slow, first the data is hashed and then the hash is signed.
 There are 4 public key algorithms for authentication:
 
-1. DSA
-1. ECDSA
-1. [Ed25519][ed25519]
-1. RSA
+1. DSA with SHA1
+1. ECDSA with SHA256, SHA384 or SHA512 depending on key size
+1. [Ed25519][ed25519] with SHA512
+1. RSA with SHA1
 
-Number 2 here involves NIST suckage and should be disabled.
-Unfortunately, DSA keys must be exactly 1024 bits so let's disable that as well.
+DSA keys must be exactly 1024 bits so let's disable that.
+Number 2 here involves NIST suckage and should be disabled as well.
+Sadly, RSA signs with SHA1, leaving only Ed25519.
 
 <pre><code>Protocol 2
-HostKey /etc/ssh/ssh_host_ed25519_key
-HostKey /etc/ssh/ssh_host_rsa_key</code></pre>
+HostKey /etc/ssh/ssh_host_ed25519_key</code></pre>
 
 This will also disable the horribly broken v1 protocol that you should not have enabled in the first place.
 We should remove the unused keys and only generate a large RSA key and an Ed25519 key.
@@ -176,17 +178,18 @@ We have to consider the following:
   The recommended approach here is to prefer [AE][ae] modes and optionally allow CTR for compatibility.
   CTR with Encrypt-then-MAC is provably secure.
 
-AES-GCM is excluded not because of a cryptographic weakness but because the SSH protocol [does not encrypt message sizes][aes-gcm] when it's in use.
+Chacha20-poly1305 is preferred over AES-GCM because the SSH protocol [does not encrypt message sizes][aes-gcm] when GCM (or EtM) is in use.
 This allows some traffic analysis even without decrypting the data.
+We will deal with that soon.
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
-<pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
+<pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code>Host *
-    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 ## Message authentication codes
 
@@ -359,13 +362,17 @@ Special thanks to the people of Twitter for the improvements.
 
 You may have noticed that this document changed since last time.
 I want to be very transparent about this.
-There were two major changes:
+There were three major changes:
 
-* I went from preferring GCM, to not preferring GCM, to finally dropping support for GCM.
-  This is because I didn't know SSH doesn't encrypt the size field when using GCM.
-  I have no idea why it does that.
+* After some debate and going back and forth between including GCM or not, it's now back again.
+  The reason for dropping it was that SSH doesn't encrypt packet sizes when using GCM.
+  The reason for bringing it back is that SSH does the same with any EtM algorithms.
+  There is no way around this unless you can live with chacha20-poly1305 only.
+  Also, the leaked documents don't sound like they can figure out the lengths or confirm presence of some things, more like straight up "send it to us and we'll decrypt it for you".
+  Wrapping SSH in a Tor hidden service will take care of any traffic analysis concerns.
 * I'm now allowing Encrypt-and-MAC algorithms with CTR ciphers as a last resort.
   I initially thought it was possible to use downgrade attacks, I now think it is not.
+* I disabled RSA because it inevitably uses SHA1.
 
 You can see the [full list of changes][changelog] on github.
 I promise not to use `git push -f`.
