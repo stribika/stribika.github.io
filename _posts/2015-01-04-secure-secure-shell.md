@@ -173,7 +173,7 @@ We have to consider the following:
 * *Block size*:
   Does not apply to stream ciphers.
   At least 128 bits.
-  This elminates 14 because CAST has a 64 bit block size.
+  This eliminates 14 because CAST has a 64 bit block size.
 * *Cipher mode*:
   The recommended approach here is to prefer [AE][ae] modes and optionally allow CTR for compatibility.
   CTR with Encrypt-then-MAC is provably secure.
