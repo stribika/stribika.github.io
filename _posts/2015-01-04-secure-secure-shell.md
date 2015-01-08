@@ -133,12 +133,12 @@ If you don't want that, remove any `ssh-keygen` commands from the init script.
 
 <pre><code>cd /etc/ssh
 rm ssh_host_*key*
-ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
-ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null</code></pre>
+ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null</code></pre>
 
 Generate client keys using the following commands:
 
 <pre><code>ssh-keygen -t ed25519 -o -a 100
+# Generate RSA client key to use with github
 ssh-keygen -t rsa -b 4096 -o -a 100</code></pre>
 
 ## Symmetric ciphers
