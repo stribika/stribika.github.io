@@ -125,7 +125,7 @@ There are 4 public key algorithms for authentication:
 DSA keys must be exactly 1024 bits so let's disable that.
 Number 2 here involves NIST suckage and should be disabled as well.
 Fortunately, RSA using SHA1 is not a problem here because the value being signed is actually a SHA2 hash.
-The hash function SHA1(SHA2(x)) is just as secure as SHA2.
+The hash function SHA1(SHA2(x)) is just as secure as SHA2 (it has less bits of course but no better attacks).
 
 <pre><code>Protocol 2
 HostKey /etc/ssh/ssh_host_ed25519_key
@@ -414,7 +414,7 @@ There were three major changes:
   Wrapping SSH in a Tor hidden service will take care of any traffic analysis concerns.
 * I'm now allowing Encrypt-and-MAC algorithms with CTR ciphers as a last resort.
   I initially thought it was possible to use downgrade attacks, I now think it is not.
-* I disabled RSA because it inevitably uses SHA1.
+* I briefly disabled RSA because it uses SHA1, this turned out to be a non-issue because we're signing SHA2 hashes.
 
 You can see the [full list of changes][changelog] on github.
 I promise not to use `git push -f`.
