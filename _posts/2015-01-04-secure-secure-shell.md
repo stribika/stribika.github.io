@@ -111,8 +111,10 @@ This will take a while so continue while it's running.
 
 The key exchange ensures that the server and the client shares a secret no one else knows.
 We also have to make sure that they share this secret with each other and not an NSA analyst.
-We do that with digital signatures.
-Since digital signatures are slow, first the data is hashed and then the hash is signed.
+
+### Server authentication
+
+The server proves proves its identity to the client by signing the key resulting from the key exchange.
 There are 4 public key algorithms for authentication:
 
 1. DSA with SHA1
@@ -122,10 +124,14 @@ There are 4 public key algorithms for authentication:
 
 DSA keys must be exactly 1024 bits so let's disable that.
 Number 2 here involves NIST suckage and should be disabled as well.
-Sadly, RSA signs with SHA1, leaving only Ed25519.
+Fortunately, RSA using SHA1 is not a problem here because the value being signed is actually a SHA2 hash.
+The hash function SHA1(SHA2(x)) is just as secure as SHA2.
 
 <pre><code>Protocol 2
-HostKey /etc/ssh/ssh_host_ed25519_key</code></pre>
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key</code></pre>
+
+The first time you connect to your server, you will be asked to accept the new fingerprint.
 
 This will also disable the horribly broken v1 protocol that you should not have enabled in the first place.
 We should remove the unused keys and only generate a large RSA key and an Ed25519 key.
@@ -134,13 +140,48 @@ If you don't want that, remove any `ssh-keygen` commands from the init script.
 
 <pre><code>cd /etc/ssh
 rm ssh_host_*key*
-ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null</code></pre>
+ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
+ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null</code></pre>
+
+### Client authentication
+
+The client must prove its identity to the server as well.
+There are various methods to do that.
+
+The simplest is password authentication.
+This should be disabled immediately *after* setting up a more secure method because it allows compromised servers to steal passwords.
+Password authentication is also more vulnerable to online bruteforce attacks.
+
+Recommended `/etc/ssh/sshd_config` snippet:
+
+<pre><code>PasswordAuthentication no</code></pre>
+
+Recommended `/etc/ssh/ssh_config` snippet:
+
+<pre><code>Host *
+    PasswordAuthentication no</code></pre>
+
+The most common and secure method is public key authentication, basically the same process as the server authentication.
+
+Recommended `/etc/ssh/sshd_config` snippet: 
+
+<pre><code>PasswordAuthentication no</code></pre>
+
+Recommended `/etc/ssh/ssh_config` snippet:
+
+<pre><code>Host *
+    PasswordAuthentication no</code></pre>
 
 Generate client keys using the following commands:
 
 <pre><code>ssh-keygen -t ed25519 -o -a 100
-# Generate RSA client key to use with github
 ssh-keygen -t rsa -b 4096 -o -a 100</code></pre>
+
+You can deploy your new client public keys using `ssh-copy-id`.
+
+It is also possible to use OTP authentication to reduce the consequences of lost passwords.
+[Google Authenticator][google-auth] is a nice implementation of [TOTP][totp], or Timebased One Time Password.
+You can also use a [printed list of one time passwords][otp] or any other [PAM][pam] module, really, if you enable `ChallengeResponseAuthentication`.
 
 ## Symmetric ciphers
 
@@ -388,6 +429,10 @@ I promise not to use `git push -f`.
 [rfc4253]: https://www.ietf.org/rfc/rfc4253.txt
 [rfc4419]: https://www.ietf.org/rfc/rfc4419.txt
 [ed25519]: http://ed25519.cr.yp.to/
+[google-auth]: https://code.google.com/p/google-authenticator/wiki/PamModuleInstructions
+[totp]: https://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm
+[otp]: https://www.cl.cam.ac.uk/~mgk25/otpw.html
+[pam]: https://en.wikipedia.org/wiki/Pluggable_authentication_module
 [nist-sucks]: http://blog.cr.yp.to/20140323-ecdsa.html
 [bullrun]: https://projectbullrun.org/dual-ec/vulnerability.html
 [ae]: https://en.wikipedia.org/wiki/Authenticated_encryption
