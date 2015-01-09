@@ -12,7 +12,8 @@ My goal with this post here is to make NSA analysts sad.
 
 TL;DR: Scan this post for fixed width fonts, these will be the config file snippets and commands you have to use.
 
-*Warning*: You will need a recent (2013 or so) OpenSSH version.
+*Warning*: You will need a recent OpenSSH version.
+It should work with 6.5 but I have only tested 6.7 and connections to Github.
 
 # The crypto
 
