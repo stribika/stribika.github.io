@@ -165,12 +165,12 @@ The most common and secure method is public key authentication, basically the sa
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
-<pre><code>PasswordAuthentication no</code></pre>
+<pre><code>PubkeyAuthentication yes</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code>Host *
-    PasswordAuthentication no</code></pre>
+    PubkeyAuthentication yes</code></pre>
 
 Generate client keys using the following commands:
 
