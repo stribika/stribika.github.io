@@ -91,6 +91,52 @@ Don't forget to verify the signature.
 
 # Installing base system
 
+Prepare and enter the chroot as described, do everything until profile selection.
+Here, select the hardened profile.
+
+<pre><code>eselect profile set hardened/linux/amd64/no-multilib</code></pre>
+
+Some important USE flags in no particular order:
+
+* cryptsetup:
+  It is *essential* that at least `sys-kernel/genkernel` is compiled with this flag or you will not be able to boot.
+* hardened:
+  Enable toolchain security enhancements.
+  This is one of the most important flags, enable it globally in `/etc/portage/make.conf`.
+* jit:
+  Just In Time compilation for various packages.
+  The idea of JIT conflicts with our basic security goal - no memory should be both writeable and executable.
+  More on this later, disable globally.
+* pic:
+  Position Independent Code is a good thing.
+  It allows more address space randomness.
+  Enable globally and every binary will be ET_DYN not ET_EXEC.
+* modules:
+  Best to disable because it can cause compilation errors.
+  The compiled modules will not be loadable anyway.
+* crypt, gpg:
+  Compile various packages with GPG support.
+  Best to enable it globally.
+* otr:
+  Compile with Off The Record messaging support.
+  Enable.
+* socks5:
+  Good for connecting to Tor.
+  Should be enabled.
+* consolekit, policykit:
+  Manages the ownership of USB devices, audio cards, etc.
+  Enable it for multi-user desktop systems.
+* systemd: Disable globally.
+* crash-reporter:
+  If you want to help developers, you can enabled it but disclosing memory dumps to 3rd parties is not what we want now.
+  You can debug crashes yourself, Gentoo makes it pretty easy to get debugging symbols.
+* cddb:
+  It will disclose what music you listen to under some circumstances.
+  Probably doesn't matter, but I disabled it.
+
+Do not use [systemd][ewontfix-systemd].
+Follow the original instructions for the remainder of this chapter.
+
 # Configuring the kernel
 
 # Configuring the system
@@ -103,3 +149,4 @@ Don't forget to verify the signature.
 
 [handbook-disks]: https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Disks
 [xts]: https://en.wikipedia.org/wiki/Disk_encryption_theory#XEX-based_tweaked-codebook_mode_with_ciphertext_stealing_.28XTS.29
+[ewontfix-systemd]: http://ewontfix.com/14/
