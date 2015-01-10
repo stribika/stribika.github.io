@@ -114,7 +114,7 @@ We also have to make sure that they share this secret with each other and not an
 
 ### Server authentication
 
-The server proves proves its identity to the client by signing the key resulting from the key exchange.
+The server proves its identity to the client by signing the key resulting from the key exchange.
 There are 4 public key algorithms for authentication:
 
 1. DSA with SHA1
