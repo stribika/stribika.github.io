@@ -39,6 +39,7 @@ On /boot you really only need enough space for a few kernels and initrd files, 6
 Make sure /boot has the bootable flag set.
 Allocate the rest for the LUKS partition.
 
+RAID is not a security measure but combining it with LUKS deserves a few words.
 If you want to use RAID, create the same partitions on all the disks.
 Add the /boot partitions to a RAID 1 array *with v0.9 metadata*, and add the other partitions to a RAID array of your choice.
 Use `/dev/md1`, `/dev/md2`, etc instead `/dev/sda1`, `/dev/sda2` for the remainder of this howto.
@@ -48,8 +49,7 @@ Example RAID setup:
 <pre><code>mdadm --create /dev/md1 --level=1 --metadata=0.9 --raid-devices=4 /dev/sda1 /dev/sdb1 /dev/sdc1 /dev/sdd1
 mdadm --create /dev/md2 --level=1 --raid-devices=2 /dev/sda2 /dev/sdb2
 mdadm --create /dev/md3 --level=1 --raid-devices=2 /dev/sdc2 /dev/sdd2
-mdadm --create /dev/md4 --level=0 --raid-devices=2 /dev/md2 /dev/md3
-</code></pre>
+mdadm --create /dev/md4 --level=0 --raid-devices=2 /dev/md2 /dev/md3</code></pre>
 
 Create the encrypted volume.
 
@@ -77,12 +77,17 @@ However, it is possible to create the filesystem directly on `/dev/mapper/luks1`
 vgcreate vg1 /dev/mapper/luks1
 lvcreate --name root --size 500G vg1
 ...
-lvcreate --name swap --size 4G vg1
-</code></pre>
+lvcreate --name swap --size 4G vg1</code></pre>
 
 Continue with filesystem creation as normal.
 
 # Installing stage3
+
+[Relevant handbook chapter][handbook-stage].
+
+Download the hardened stage3 tarball from one of the mirrors instead of the regular stage3.
+It's in the `releases/amd64/autobuilds/current-stage3-amd64-hardened+nomultilib` directory.
+Don't forget to verify the signature.
 
 # Installing base system
 
