@@ -148,5 +148,6 @@ Follow the original instructions for the remainder of this chapter.
 # Finalizing
 
 [handbook-disks]: https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Disks
+[handbook-stage]: https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Stage
 [xts]: https://en.wikipedia.org/wiki/Disk_encryption_theory#XEX-based_tweaked-codebook_mode_with_ciphertext_stealing_.28XTS.29
 [ewontfix-systemd]: http://ewontfix.com/14/
