@@ -37,7 +37,7 @@ In case of SSH, this is a hash function.
 DH works with a multiplicative group of integers modulo a prime.
 Its security is based on the hardness of the [discrete logarithm problem][dlp].
 
-<pre><code>Alice           Bob
+<pre><code id="diffie-hellman">Alice           Bob
 ---------------------------
 Sa = random
 Pa = g^Sa   --> Pa
@@ -49,7 +49,7 @@ k = KDF(s)      k = KDF(s)</code></pre>
 ECDH works with elliptic curves over finite fields.
 Its security is based on the hardness of the elliptic curve discrete logarithm problem.
 
-<pre><code>Alice           Bob
+<pre><code id="elliptic-curve-diffie-hellman">Alice           Bob
 ---------------------------
 Sa = random
 Pa = Sa * G --> Pa
@@ -87,11 +87,11 @@ We are left with 1 and 5.
 
 Recommended `/etc/ssh/sshd_config` snippet:
 
-<pre><code>KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
+<pre><code id="server-kex">KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code># Github needs diffie-hellman-group-exchange-sha1 some of the time but not always.
+<pre><code id="client-kex"># Github needs diffie-hellman-group-exchange-sha1 some of the time but not always.
 #Host github.com
 #    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1
     
@@ -101,7 +101,7 @@ Host *
 If you chose to enable 5, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2000.
 If it does not exist, create it:
 
-<pre><code>ssh-keygen -G "${HOME}/moduli" -b 4096
+<pre><code id="server-moduli">ssh-keygen -G "${HOME}/moduli" -b 4096
 ssh-keygen -T /etc/ssh/moduli -f "${HOME}/moduli"
 rm "${HOME}/moduli"</code></pre>
 
@@ -127,7 +127,7 @@ Number 2 here involves NIST suckage and should be disabled as well.
 Fortunately, RSA using SHA1 is not a problem here because the value being signed is actually a SHA2 hash.
 The hash function SHA1(SHA2(x)) is just as secure as SHA2 (it has less bits of course but no better attacks).
 
-<pre><code>Protocol 2
+<pre><code id="server-auth">Protocol 2
 HostKey /etc/ssh/ssh_host_ed25519_key
 HostKey /etc/ssh/ssh_host_rsa_key</code></pre>
 
@@ -138,7 +138,7 @@ We should remove the unused keys and only generate a large RSA key and an Ed2551
 Your init scripts may recreate the unused keys.
 If you don't want that, remove any `ssh-keygen` commands from the init script.
 
-<pre><code>cd /etc/ssh
+<pre><code id="server-keygen">cd /etc/ssh
 rm ssh_host_*key*
 ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
 ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null</code></pre>
@@ -154,27 +154,27 @@ Password authentication is also more vulnerable to online bruteforce attacks.
 
 Recommended `/etc/ssh/sshd_config` snippet:
 
-<pre><code>PasswordAuthentication no</code></pre>
+<pre><code id="server-auth-password">PasswordAuthentication no</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code>Host *
+<pre><code id="client-auth-password">Host *
     PasswordAuthentication no</code></pre>
 
 The most common and secure method is public key authentication, basically the same process as the server authentication.
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
-<pre><code>PubkeyAuthentication yes</code></pre>
+<pre><code id="server-auth-pubkey">PubkeyAuthentication yes</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code>Host *
+<pre><code id="client-auth-pubkey">Host *
     PubkeyAuthentication yes</code></pre>
 
 Generate client keys using the following commands:
 
-<pre><code>ssh-keygen -t ed25519 -o -a 100
+<pre><code id="client-keygen">ssh-keygen -t ed25519 -o -a 100
 ssh-keygen -t rsa -b 4096 -o -a 100</code></pre>
 
 You can deploy your new client public keys using `ssh-copy-id`.
@@ -226,11 +226,11 @@ We will deal with that soon.
 
 Recommended `/etc/ssh/sshd_config` snippet:
 
-<pre><code>Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
+<pre><code id="server-ciphers">Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code>Host *
+<pre><code id="client-ciphers">Host *
     Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr</code></pre>
 
 ## Message authentication codes
@@ -298,11 +298,11 @@ The selection considerations:
 
 Recommended `/etc/ssh/sshd_config` snippet:
 
-<pre><code>MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com</code></pre>
+<pre><code id="server-macs">MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code>Host *
+<pre><code id="client-macs">Host *
     MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com</code></pre>
 
 # Preventing key theft
@@ -345,11 +345,11 @@ You should only accept connections from the hidden service or from LAN, if requi
 
 If you don't need LAN access, you can add the following line to `/etc/ssh/sshd_config`:
 
-<code>ListenAddress 127.0.0.1:22</code>
+<pre><code id="localhost-only">ListenAddress 127.0.0.1:22</code></pre>
 
 Add this to `/etc/tor/torrc`:
 
-<pre><code>HiddenServiceDir /var/lib/tor/hidden_service/ssh
+<pre><code id="hidden-service">HiddenServiceDir /var/lib/tor/hidden_service/ssh
 HiddenServicePort 22 127.0.0.1:22</code></pre>
 
 You will find the hostname you have to use in `/var/lib/tor/hidden_service/ssh/hostname`.
@@ -357,7 +357,7 @@ You also have to configure the client to use Tor.
 For this, socat will be needed.
 Add the following line to `/etc/ssh/ssh_config`:
 
-<pre><code>Host *.onion
+<pre><code id="onion-proxy">Host *.onion
     ProxyCommand socat - SOCKS4A:localhost:%h:%p,socksport=9050
 
 Host *
