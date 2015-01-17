@@ -99,6 +99,11 @@ Host *
     KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
 
 If you chose to enable 5, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2000.
+
+<pre><code id="server-moduli-filter">awk '$5 > 2000' /etc/ssh/moduli > "${HOME}/moduli"
+wc -l "${HOME}/moduli" # make sure there is something left
+mv "${HOME}/moduli" /etc/ssh/moduli</code></pre>
+
 If it does not exist, create it:
 
 <pre><code id="server-moduli">ssh-keygen -G "${HOME}/moduli" -b 4096
