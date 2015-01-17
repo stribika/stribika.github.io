@@ -124,6 +124,8 @@ There are 4 public key algorithms for authentication:
 
 DSA keys must be exactly 1024 bits so let's disable that.
 Number 2 here involves NIST suckage and should be disabled as well.
+Another important disadvantage of DSA and ECDSA is that it uses randomness for each signature.
+If the random numbers are not the best quality, then it is [possible to recover][ecdsa-same-k] the [secret key][ecdsa-sony].
 Fortunately, RSA using SHA1 is not a problem here because the value being signed is actually a SHA2 hash.
 The hash function SHA1(SHA2(x)) is just as secure as SHA2 (it has less bits of course but no better attacks).
 
@@ -170,7 +172,8 @@ Recommended `/etc/ssh/sshd_config` snippet:
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code id="client-auth-pubkey">Host *
-    PubkeyAuthentication yes</code></pre>
+    PubkeyAuthentication yes
+    HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-rsa-cert-v00@openssh.com,ssh-ed25519,ssh-rsa</code></pre>
 
 Generate client keys using the following commands:
 
@@ -196,14 +199,14 @@ Here we have quite a few algorithms:
 1. aes128-ctr
 1. aes192-ctr
 1. aes256-ctr
-1. aes128-gcm
-1. aes256-gcm
+1. aes128-gcm@openssh.com
+1. aes256-gcm@openssh.com
 1. arcfour
 1. arcfour128
 1. arcfour256
 1. blowfish-cbc
 1. cast128-cbc
-1. chacha20-poly1305
+1. chacha20-poly1305@openssh.com
 
 We have to consider the following:
 
@@ -269,15 +272,15 @@ Here are the available MAC choices:
 1. hmac-sha2-512
 1. umac-64
 1. umac-128
-1. hmac-md5-etm
-1. hmac-md5-96-etm
-1. hmac-ripemd160-etm
-1. hmac-sha1-etm
-1. hmac-sha1-96-etm
-1. hmac-sha2-256-etm
-1. hmac-sha2-512-etm
-1. umac-64-etm
-1. umac-128-etm
+1. hmac-md5-etm@openssh.com
+1. hmac-md5-96-etm@openssh.com
+1. hmac-ripemd160-etm@openssh.com
+1. hmac-sha1-etm@openssh.com
+1. hmac-sha1-96-etm@openssh.com
+1. hmac-sha2-256-etm@openssh.com
+1. hmac-sha2-512-etm@openssh.com
+1. umac-64-etm@openssh.com
+1. umac-128-etm@openssh.com
 
 The selection considerations:
 
@@ -435,6 +438,8 @@ I promise not to use `git push -f`.
 [pam]: https://en.wikipedia.org/wiki/Pluggable_authentication_module
 [nist-sucks]: http://blog.cr.yp.to/20140323-ecdsa.html
 [bullrun]: https://projectbullrun.org/dual-ec/vulnerability.html
+[ecdsa-same-k]: https://security.stackexchange.com/a/46781
+[ecdsa-sony]: https://events.ccc.de/congress/2010/Fahrplan/attachments/1780%5F27c3%5Fconsole%5Fhacking%5F2010.pdf
 [ae]: https://en.wikipedia.org/wiki/Authenticated_encryption
 [aes-gcm]: http://blog.djm.net.au/2013/11/chacha20-and-poly1305-in-openssh.html
 [grsec]: https://grsecurity.net/
