@@ -161,12 +161,14 @@ Password authentication is also more vulnerable to online bruteforce attacks.
 
 Recommended `/etc/ssh/sshd_config` snippet:
 
-<pre><code id="server-auth-password">PasswordAuthentication no</code></pre>
+<pre><code id="server-auth-password">PasswordAuthentication no
+ChallengeResponseAuthentication no</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code id="client-auth-password">Host *
-    PasswordAuthentication no</code></pre>
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no</code></pre>
 
 The most common and secure method is public key authentication, basically the same process as the server authentication.
 
