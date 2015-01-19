@@ -402,6 +402,7 @@ If the answer is yes, then...
 
 If the answer is no, it's probably due to compatibility problems.
 You can try to convince the other side to upgrade their security and turn it into a yes.
+I have created a [wiki page][sssh-wiki] where anyone can add config files for preserving compatibility with various SSH implementations and SSH based services.
 
 If you work for a big company and change management doesn't let you do it, I'm sorry.
 I've seen the v1 protocol enabled in such places.
@@ -451,4 +452,5 @@ I promise not to use `git push -f`.
 [aes-gcm]: http://blog.djm.net.au/2013/11/chacha20-and-poly1305-in-openssh.html
 [grsec]: https://grsecurity.net/
 [tor-hs]: https://www.torproject.org/docs/hidden-services.html.en
+[sssh-wiki]: https://github.com/stribika/stribika.github.io/wiki/Secure-Secure-Shell
 [changelog]: https://github.com/stribika/stribika.github.io/commits/master/_posts/2015-01-04-secure-secure-shell.md
