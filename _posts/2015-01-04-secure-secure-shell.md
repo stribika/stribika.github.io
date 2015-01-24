@@ -83,7 +83,7 @@ We have to look at 3 things here:
   We don't have to wait for a second preimage attack that takes 10 minutes on a cellphone to disable it right now.
 
 We are left with 1 and 5.
-1 is better and it's perfectly OK to only support that but for interoperability, 5 can be included.
+1 is better and it's perfectly OK to only support that but for interoperability (with Eclipse, WinSCP), 5 can be included.
 
 Recommended `/etc/ssh/sshd_config` snippet:
 
