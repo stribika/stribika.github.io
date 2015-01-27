@@ -14,6 +14,7 @@ TL;DR: Scan this post for fixed width fonts, these will be the config file snipp
 
 *Warning*: You will need a recent OpenSSH version.
 It should work with 6.5 but I have only tested 6.7 and connections to Github.
+Here is a good [compatibility matrix][compat].
 
 # The crypto
 
@@ -431,6 +432,7 @@ You can see the [full list of changes][changelog] on github.
 I promise not to use `git push -f`.
 
 [snowden-docs]: https://www.spiegel.de/international/germany/inside-the-nsa-s-war-on-internet-security-a-1010361.html
+[compat]: http://ssh-comparison.quendi.de/comparison.html
 [dh]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
 [ecdh]: https://en.wikipedia.org/wiki/Elliptic_curve_Diffie%E2%80%93Hellman
 [forward-secrecy]: https://en.wikipedia.org/wiki/Forward_secrecy
