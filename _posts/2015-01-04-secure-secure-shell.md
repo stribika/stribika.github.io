@@ -194,6 +194,16 @@ It is also possible to use OTP authentication to reduce the consequences of lost
 [Google Authenticator][google-auth] is a nice implementation of [TOTP][totp], or Timebased One Time Password.
 You can also use a [printed list of one time passwords][otp] or any other [PAM][pam] module, really, if you enable `ChallengeResponseAuthentication`.
 
+### User Authentication
+
+Even with Public Key authentication, you should only allow incoming connections from expected users.  The `AllowHosts` setting in `sshd_config` lets you specify users who are allowed to connect, but this can get complicated with a large number of ssh users.  Additionally, when deleting a user from the system, the username is [not removed][bug779880] from `sshd_config`, which adds to maintenance requirements.  The solution is to use the `AllowGroups` setting instead, and add users to an `ssh-user` group.
+
+Recommended `/etc/ssh/sshd_config` snippet: 
+
+<pre><code id="client-auth-allowgroups">AllowGroups ssh-user</code></pre>
+
+Create the ssh-user group with `sudo groupadd ssh-user`, then add each ssh user to the group with `sudo usermod -a -G ssh-user <username>`.
+
 ## Symmetric ciphers
 
 Symmetric ciphers are used to encrypt the data after the initial key exchange and authentication is complete.
@@ -456,3 +466,4 @@ I promise not to use `git push -f`.
 [tor-hs]: https://www.torproject.org/docs/hidden-services.html.en
 [sssh-wiki]: https://github.com/stribika/stribika.github.io/wiki/Secure-Secure-Shell
 [changelog]: https://github.com/stribika/stribika.github.io/commits/master/_posts/2015-01-04-secure-secure-shell.md
+[bug7779880]: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=779880
