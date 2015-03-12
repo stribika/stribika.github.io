@@ -139,6 +139,12 @@ Follow the original instructions for the remainder of this chapter.
 
 # Configuring the kernel
 
+[Relevant handbook chapter][handbook-kernel]
+
+To boot from an encrypted disk, you will need an initrd.
+The easiest way to build an initrd is using `sys-kernel/genkernel`.
+
+
 # Configuring the system
 
 # Installing tools
