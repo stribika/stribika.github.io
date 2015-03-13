@@ -196,7 +196,7 @@ You can also use a [printed list of one time passwords][otp] or any other [PAM][
 
 ### User Authentication
 
-Even with Public Key authentication, you should only allow incoming connections from expected users.  The `AllowHosts` setting in `sshd_config` lets you specify users who are allowed to connect, but this can get complicated with a large number of ssh users.  Additionally, when deleting a user from the system, the username is [not removed][bug779880] from `sshd_config`, which adds to maintenance requirements.  The solution is to use the `AllowGroups` setting instead, and add users to an `ssh-user` group.
+Even with Public Key authentication, you should only allow incoming connections from expected users.  The `AllowUsers` setting in `sshd_config` lets you specify users who are allowed to connect, but this can get complicated with a large number of ssh users.  Additionally, when deleting a user from the system, the username is [not removed][bug779880] from `sshd_config`, which adds to maintenance requirements.  The solution is to use the `AllowGroups` setting instead, and add users to an `ssh-user` group.
 
 Recommended `/etc/ssh/sshd_config` snippet: 
 
