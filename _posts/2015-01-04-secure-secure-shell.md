@@ -466,4 +466,4 @@ I promise not to use `git push -f`.
 [tor-hs]: https://www.torproject.org/docs/hidden-services.html.en
 [sssh-wiki]: https://github.com/stribika/stribika.github.io/wiki/Secure-Secure-Shell
 [changelog]: https://github.com/stribika/stribika.github.io/commits/master/_posts/2015-01-04-secure-secure-shell.md
-[bug7779880]: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=779880
+[bug779880]: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=779880
