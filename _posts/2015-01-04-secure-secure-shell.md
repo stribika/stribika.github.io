@@ -349,7 +349,7 @@ Very briefly:
   New versions often fix critical security holes.
 * *Exploit mitigation*:
   Sad but true - there will always be security holes in your software.
-  There are things you can do to prevent their exploitation such GCC's -fstack-protector.
+  There are things you can do to prevent their exploitation, such as GCC's -fstack-protector.
   One of the best security projects out there is [Grsecurity][grsec].
   Use it or use OpenBSD.
 
