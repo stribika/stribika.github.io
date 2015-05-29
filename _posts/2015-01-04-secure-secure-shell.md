@@ -107,9 +107,10 @@ mv "${HOME}/moduli" /etc/ssh/moduli</code></pre>
 
 If it does not exist, create it:
 
-<pre><code id="server-moduli">ssh-keygen -G "${HOME}/moduli" -b 4096
-ssh-keygen -T /etc/ssh/moduli -f "${HOME}/moduli"
-rm "${HOME}/moduli"</code></pre>
+<pre><code id="server-moduli">ssh-keygen -G /etc/ssh/moduli.all -b 4096
+ssh-keygen -T /etc/ssh/moduli.safe -f /etc/ssh/moduli.all
+mv /etc/ssh/moduli.safe /etc/ssh/moduli
+rm /etc/ssh/moduli.all</code></pre>
 
 This will take a while so continue while it's running.
 
