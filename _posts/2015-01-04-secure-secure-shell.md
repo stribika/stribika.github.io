@@ -182,7 +182,7 @@ Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code id="client-auth-pubkey">Host *
     PubkeyAuthentication yes
-    HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-rsa-cert-v00@openssh.com,ssh-ed25519,ssh-rsa</code></pre>
+    HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa</code></pre>
 
 Generate client keys using the following commands:
 
