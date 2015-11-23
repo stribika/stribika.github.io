@@ -8,54 +8,56 @@ permalink: /multi-code-widget/
         width: 50%;
         margin: auto;
     }
-
+    
     .multicode {
         display: flex;
         flex-wrap: wrap;
-
+        justify-content: flex-start;
+    
         width: 100%;
         padding: 0px;
         border: 0px;
         margin: 0px;
     }
-
+    
     .multicode-selector {
         display: none;
     }
-
+    
     .multicode-selector + label {
         order: -1;
-
-        padding-left: 5%;
-        padding-right: 5%;
-        padding-top: 0.5em;
-        padding-bottom: 0.5em;
-        border: 1px;
-        margin: auto;
-
+    
+        padding: 0.5em;
+        border-top: 1px;
+        border-bottom: 0px;
+        border-left: 1px;
+        border-right: 1px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    
         background-color: #c0c0c0;
         border-color: #808080;
         border-style: solid;
     }
-
+    
     .multicode-selector:checked + label {
         background-color: #e0e0e0;
     }
-
+    
     .multicode-selector + label + code {
         display: none;
     }
-
+    
     .multicode-selector:checked + label + code {
         display: block;
-
+    
         width: 100%;
         border: 1px;
         padding: 1em;
         margin: 0px;
         break-before: always;
         page-break-before: always;
-
+    
         background-color: #e0e0e0;
         border-color: #808080;
         border-style: solid;
