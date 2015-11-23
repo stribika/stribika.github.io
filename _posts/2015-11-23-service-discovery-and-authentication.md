@@ -4,13 +4,14 @@ title: "Service discovery and authentication"
 tags: [java,security,zookeeper,tls]
 ---
 
-# Service discovery
-
 [ZooKeeper][zk] is a popular choice for service discovery in distributed systems.
 It is a hierarchical key-value store with very strong consistency guarantees.
 What makes it a good choice for service discovery is its capability to create temporary tree nodes that disappear when the session that created it is disconnected.
 Another important feature is sequential nodes - nodes that have a consistent counter appended to their name.
 You can use these for implementing distributed locking for example.
+This post is about the authentication problems that appear as a result of introducting service discovery into a distributed system.
+
+# Service discovery
 
 The exact details of implementing a [service discovery protocol][zksvc] using ZooKeeper is outside the scope of this document.
 I want to describe it in enough details so that we can understand its security properties.
