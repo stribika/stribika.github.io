@@ -334,6 +334,13 @@ The NSA has a database of stolen keys - you do not want your key there.
 
 ## System hardening
 
+OpenSSH has some undocumented, and rarely used features.
+UseRoaming is one such feature with a known vulnerability.
+
+Recommended `/etc/ssh/ssh_config` snippet:
+<pre><code id="client-features">Host *
+   UseRoaming no</code></pre>
+
 This post is not intended to be a comprehensive system security guide.
 Very briefly:
 
