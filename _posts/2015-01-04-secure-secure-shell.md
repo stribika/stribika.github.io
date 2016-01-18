@@ -34,6 +34,7 @@ Both provide [forward secrecy][forward-secrecy] which the NSA hates because they
 The server and the client will end up with a shared secret number at the end without a passive eavesdropper learning anything about this number.
 After we have a shared secret we have to derive a cryptographic key from this using a key derivation function.
 In case of SSH, this is a hash function.
+[Collision attacks][sloth] on this hash function have been proven to allow downgrade attacks.
 
 DH works with a multiplicative group of integers modulo a prime.
 Its security is based on the hardness of the [discrete logarithm problem][dlp].
@@ -475,3 +476,4 @@ I promise not to use `git push -f`.
 [sssh-wiki]: https://github.com/stribika/stribika.github.io/wiki/Secure-Secure-Shell
 [changelog]: https://github.com/stribika/stribika.github.io/commits/master/_posts/2015-01-04-secure-secure-shell.md
 [bug779880]: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=779880
+[sloth]: https://www.mitls.org/downloads/transcript-collisions.pdf
