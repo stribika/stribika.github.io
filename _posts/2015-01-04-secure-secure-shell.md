@@ -150,8 +150,8 @@ If you don't want that, remove any `ssh-keygen` commands from the init script.
 
 <pre><code id="server-keygen">cd /etc/ssh
 rm ssh_host_*key*
-ssh-keygen -t ed25519 -f ssh_host_ed25519_key < /dev/null
-ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key < /dev/null</code></pre>
+ssh-keygen -t ed25519 -f ssh_host_ed25519_key -N "" < /dev/null
+ssh-keygen -t rsa -b 4096 -f ssh_host_rsa_key -N "" < /dev/null</code></pre>
 
 ### Client authentication
 
