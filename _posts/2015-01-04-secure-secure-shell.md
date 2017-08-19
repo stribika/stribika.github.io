@@ -370,7 +370,7 @@ It provides an additional layer of encryption and server authentication.
 People looking at your traffic will not know your IP, so they will be unable to scan and target other services running on the same server and client.
 Attackers can still attack these services but don't know if it has anything to do with the observed traffic until they actually break in.
 
-Now this is only true if you don't disclose your SSH server's fingerprint in any other way.
+Now this is only true if you don't disclose your SSH server's fingerprint in any other way. To mitigate this, consider [using a stealth Onion service](https://www.torproject.org/docs/tor-manual.html#HiddenServiceAuthorizeClient) so that attackers cannot even observe the presence of your hidden service.
 You should only accept connections from the hidden service or from LAN, if required.
 
 If you don't need LAN access, you can add the following line to `/etc/ssh/sshd_config`:
@@ -380,15 +380,22 @@ If you don't need LAN access, you can add the following line to `/etc/ssh/sshd_c
 Add this to `/etc/tor/torrc`:
 
 <pre><code id="hidden-service">HiddenServiceDir /var/lib/tor/hidden_service/ssh
-HiddenServicePort 22 127.0.0.1:22</code></pre>
+HiddenServicePort 22 127.0.0.1:22
+# Uncomment this if you want the added security of Tor-level authentication.
+#HiddenServiceAuthorizeClient stealth my_client
+</code></pre>
 
 You will find the hostname you have to use in `/var/lib/tor/hidden_service/ssh/hostname`.
-You also have to configure the client to use Tor.
-For this, socat will be needed.
+You also have to configure the client to use Tor, and then proxy your SSH connection through the local Tor client.
+If you chose to configure stealth client authorization, you must also further [configure your client's `torrc` file to access the stealth Onion service](https://github.com/micahflee/onionshare/wiki/Stealth-Onion-Services#how-to-receive-files-with-stealth-onion-services).
+To proxify SSH, however, either `socat` or the more ubiquitous `nc` will be needed.
 Add the following line to `/etc/ssh/ssh_config`:
 
 <pre><code id="onion-proxy">Host *.onion
+    # When using socat:
     ProxyCommand socat - SOCKS4A:localhost:%h:%p,socksport=9050
+    # When using nc:
+    #ProxyCommand nc -x localhost:9050 %h %p
 
 Host *
     ...</code></pre>
