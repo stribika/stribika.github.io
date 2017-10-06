@@ -60,11 +60,14 @@ Pb          <-- Pb = Sb * G
 s = Sa * Pb     s = Sb * Pa
 k = KDF(s)      k = KDF(s)</code></pre>
 
-OpenSSH supports 8 key exchange protocols:
+OpenSSH supports 11 key exchange protocols:
 
 1. [curve25519-sha256][libsshdoc]: ECDH over [Curve25519][curve25519] with SHA2
 1. [diffie-hellman-group1-sha1][rfc4253]: 1024 bit DH with SHA1
 1. [diffie-hellman-group14-sha1][rfc4253]: 2048 bit DH with SHA1
+1. [diffie-hellman-group14-sha256][dh-draft]: 2048 bit DH with SHA2
+1. [diffie-hellman-group16-sha512][dh-draft]: 4096 bit DH with SHA2
+1. [diffie-hellman-group18-sha512][dh-draft]: 8192 bit DH with SHA2
 1. [diffie-hellman-group-exchange-sha1][rfc4419]: Custom DH with SHA1
 1. [diffie-hellman-group-exchange-sha256][rfc4419]: Custom DH with SHA2
 1. ecdh-sha2-nistp256: ECDH over NIST P-256 with SHA2
@@ -74,18 +77,18 @@ OpenSSH supports 8 key exchange protocols:
 We have to look at 3 things here:
 
 * *ECDH curve choice*:
-  This eliminates 6-8 because [NIST curves suck][nist-sucks].
+  This eliminates 8-11 because [NIST curves suck][nist-sucks].
   They leak secrets through timing side channels and off-curve inputs.
   Also, [NIST is considered harmful][bullrun] and cannot be trusted.
 * *Bit size of the DH modulus*:
   This eliminates 2 because the NSA has supercomputers and possibly unknown attacks.
   1024 bits simply don't offer sufficient security margin.
 * *Security of the hash function*:
-  This eliminates 2-4 because SHA1 is broken.
+  This eliminates 2, 3, and 7 because SHA1 is broken.
   We don't have to wait for a second preimage attack that takes 10 minutes on a cellphone to disable it right now.
 
-We are left with 1 and 5.
-1 is better and it's perfectly OK to only support that but for interoperability (with Eclipse, WinSCP), 5 can be included.
+We are left with 1 and 8, as well as 4-6 which were added in [OpenSSH 7.3][73release].
+1 is better and it's perfectly OK to only support that but for interoperability (with Eclipse, WinSCP), 8 can be included.
 
 Recommended `/etc/ssh/sshd_config` snippet:
 
@@ -100,7 +103,7 @@ Recommended `/etc/ssh/ssh_config` snippet:
 Host *
     KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
 
-If you chose to enable 5, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2000.
+If you chose to enable 8, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2000.
 
 <pre><code id="server-moduli-filter">awk '$5 > 2000' /etc/ssh/moduli > "${HOME}/moduli"
 wc -l "${HOME}/moduli" # make sure there is something left
@@ -457,6 +460,8 @@ I promise not to use `git push -f`.
 [libsshdoc]: http://git.libssh.org/projects/libssh.git/tree/doc/curve25519-sha256@libssh.org.txt
 [curve25519]: http://cr.yp.to/ecdh.html
 [rfc4253]: https://www.ietf.org/rfc/rfc4253.txt
+[dh-draft]: https://tools.ietf.org/html/draft-ietf-curdle-ssh-modp-dh-sha2-09
+[73release]: https://www.openssh.com/releasenotes.html#7.3
 [rfc4419]: https://www.ietf.org/rfc/rfc4419.txt
 [ed25519]: http://ed25519.cr.yp.to/
 [google-auth]: https://github.com/google/google-authenticator/wiki/PAM-Module-Instructions
