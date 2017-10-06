@@ -459,7 +459,7 @@ I promise not to use `git push -f`.
 [rfc4253]: https://www.ietf.org/rfc/rfc4253.txt
 [rfc4419]: https://www.ietf.org/rfc/rfc4419.txt
 [ed25519]: http://ed25519.cr.yp.to/
-[google-auth]: https://code.google.com/p/google-authenticator/wiki/PamModuleInstructions
+[google-auth]: https://github.com/google/google-authenticator/wiki/PAM-Module-Instructions
 [totp]: https://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm
 [otp]: https://www.cl.cam.ac.uk/~mgk25/otpw.html
 [pam]: https://en.wikipedia.org/wiki/Pluggable_authentication_module
