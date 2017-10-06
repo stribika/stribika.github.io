@@ -213,7 +213,7 @@ Create the ssh-user group with `sudo groupadd ssh-user`, then add each ssh user 
 
 Symmetric ciphers are used to encrypt the data after the initial key exchange and authentication is complete.
 
-Here we have quite a few algorithms:
+Here we have quite a few algorithms (10-14 were removed in [OpenSSH 7.6][76release]):
 
 1. 3des-cbc
 1. aes128-cbc
@@ -462,6 +462,7 @@ I promise not to use `git push -f`.
 [rfc4253]: https://www.ietf.org/rfc/rfc4253.txt
 [dh-draft]: https://tools.ietf.org/html/draft-ietf-curdle-ssh-modp-dh-sha2-09
 [73release]: https://www.openssh.com/releasenotes.html#7.3
+[76release]: https://www.openssh.com/releasenotes.html#7.6
 [rfc4419]: https://www.ietf.org/rfc/rfc4419.txt
 [ed25519]: http://ed25519.cr.yp.to/
 [google-auth]: https://github.com/google/google-authenticator/wiki/PAM-Module-Instructions
