@@ -77,7 +77,7 @@ OpenSSH supports 11 key exchange protocols:
 We have to look at 3 things here:
 
 * *ECDH curve choice*:
-  This eliminates 8-11 because [NIST curves suck][nist-sucks].
+  This eliminates 9-11 because [NIST curves suck][nist-sucks].
   They leak secrets through timing side channels and off-curve inputs.
   Also, [NIST is considered harmful][bullrun] and cannot be trusted.
 * *Bit size of the DH modulus*:
