@@ -337,7 +337,7 @@ The NSA has a database of stolen keys - you do not want your key there.
 ## System hardening
 
 OpenSSH has some undocumented, and rarely used features.
-UseRoaming is one such feature with a [known vulnerability][useroaming-vuln].
+UseRoaming is one such feature with a [known vulnerability][useroaming].
 
 Recommended `/etc/ssh/ssh_config` snippet:
 <pre><code id="client-features">Host *
@@ -475,7 +475,7 @@ I promise not to use `git push -f`.
 [ecdsa-sony]: https://events.ccc.de/congress/2010/Fahrplan/attachments/1780%5F27c3%5Fconsole%5Fhacking%5F2010.pdf
 [ae]: https://en.wikipedia.org/wiki/Authenticated_encryption
 [aes-gcm]: http://blog.djm.net.au/2013/11/chacha20-and-poly1305-in-openssh.html
-[useroaming-vulnerability] https://security.stackexchange.com/questions/110639/how-exploitable-is-the-recent-useroaming-ssh-problem
+[useroaming] https://security.stackexchange.com/questions/110639/how-exploitable-is-the-recent-useroaming-ssh-problem
 [grsec]: https://grsecurity.net/
 [tor-hs]: https://www.torproject.org/docs/hidden-services.html.en
 [sssh-wiki]: https://github.com/stribika/stribika.github.io/wiki/Secure-Secure-Shell
