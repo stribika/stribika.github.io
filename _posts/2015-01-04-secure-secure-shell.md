@@ -149,7 +149,12 @@ The first time you connect to your server, you will be asked to accept the new f
 This will also disable the horribly broken v1 protocol that you should not have enabled in the first place.
 We should remove the unused keys and only generate a large RSA key and an Ed25519 key.
 Your init scripts may recreate the unused keys.
-If you don't want that, remove any `ssh-keygen` commands from the init script.
+If you don't want that, remove any `ssh-keygen` commands from the init script.  Alternatively, open the ecdsa and dsa key files and zero them out.  Follow this with a 
+
+<pre><code id="keygen chattr">
+chattr +i ssh_host_{ecdsa,dsa}
+</code></pre>
+to prevent your machine automatically regenerating them should you not wish to edit ssh-keygen commands from the init script.
 
 <pre><code id="server-keygen">cd /etc/ssh
 rm ssh_host_*key*
