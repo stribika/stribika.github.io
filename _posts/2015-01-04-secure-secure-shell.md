@@ -322,12 +322,12 @@ The selection considerations:
 
 Recommended `/etc/ssh/sshd_config` snippet:
 
-<pre><code id="server-macs">MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com</code></pre>
+<pre><code id="server-macs">MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128-etm@openssh.com</code></pre>
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
 <pre><code id="client-macs">Host *
-    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com</code></pre>
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128-etm@openssh.com</code></pre>
 
 # Preventing key theft
 
