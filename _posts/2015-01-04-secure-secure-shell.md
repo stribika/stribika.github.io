@@ -96,11 +96,7 @@ Recommended `/etc/ssh/sshd_config` snippet:
 
 Recommended `/etc/ssh/ssh_config` snippet:
 
-<pre><code id="client-kex"># Github needs diffie-hellman-group-exchange-sha1 some of the time but not always.
-#Host github.com
-#    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1
-    
-Host *
+<pre><code id="client-kex">Host *
     KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256</code></pre>
 
 If you chose to enable 8, open `/etc/ssh/moduli` if exists, and delete lines where the 5th column is less than 2000.
