@@ -111,8 +111,8 @@ mv "${HOME}/moduli" /etc/ssh/moduli</code></pre>
 
 If it does not exist, create it:
 
-<pre><code id="server-moduli">ssh-keygen -G /etc/ssh/moduli.all -b 4096
-ssh-keygen -T /etc/ssh/moduli.safe -f /etc/ssh/moduli.all
+<pre><code id="server-moduli">ssh-keygen -M generate -O bits=4096 /etc/ssh/moduli.all
+ssh-keygen -M screen -f /etc/ssh/moduli.all /etc/ssh/moduli.safe
 mv /etc/ssh/moduli.safe /etc/ssh/moduli
 rm /etc/ssh/moduli.all</code></pre>
 
