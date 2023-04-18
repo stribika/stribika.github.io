@@ -5,11 +5,22 @@ layout: default
 
   <header class="post-header">
     <h1 class="post-title">{{ page.title }}</h1>
-    <p class="post-meta">{{ page.date | date: "%Y-%m-%d" }} {{ page.tags | sort | array_to_sentence_string }}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
+    <p class="post-meta">{{ page.date | date: "%Y-%m-%d" }} {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %} {% if page.meta %} • {{ page.meta }}{% endif %}</p>
   </header>
 
   <article class="post-content">
     {{ content }}
   </article>
+
+  {% if page.comments %}
+  <section id="comment-section">
+    <object id="comment-section-visible" name="Comment Section" type="text/html" data="{{ page.comments }}" aria-role="document">
+	    Unable to load embedded comments.
+      <a href="{{ page.comments }}" target="_blank">Open comments in a new tab</a>
+    </object>
+    <a href="#comment-section-visible" role="button" class="button">Show comments</a>
+    <a href="#comment-section" role="button" class="button">Hide comments</a>
+  </section>
+  {% endif %}
 
 </div>

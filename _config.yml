@@ -1,15 +1,39 @@
 # Site settings
 title: This is probably not the site you are looking for
-description: > # this means to ignore newlines until "baseurl:"
-  You attempted to reach stribika.github.io, but instead you actually reached a
-  server identifying itself as a shape shifter humanoid reptile alien. This may
-  be caused by a misconfiguration on the server or something more serious. An
-  attacker on your network could be trying to get you to visit a fake (and
-  definitely harmful) version of stribika.github.io. You should not proceed.
+description: > 
+  No ads, no tracking. Ever.<br/>
+  <strong>blog.stribik.technology</strong> is completely static, without cookies or javascript.<br/>
+  <strong>comments.stribik.technology</strong> uses javascript and local storage, it's loaded when you click "Show comments".
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "https://stribika.github.io" # the base hostname & protocol for your site
-twitter_username: stribika
+url: "https://blog.stribik.technology" # the base hostname & protocol for your site
+collections:
+  pocorgtfo:
+    sort_by: date
+email:
+  - address: blog@stribik.technology
+    fingerprint: >
+      B4BD 7002 FA48 7DA8 F085<br/>
+      30FD AB7E 0BFC 05CD 43FE
+    pubkey: /assets/about/blog.gpg
+    description: Corrections and comments related to this blog.
+  - address: security@stribik.technology
+    fingerprint: >
+      1EA7 60A2 2B36 A8E6 C973<br/>
+      533F B479 DD2A B4A6 BA23
+    pubkey: /assets/about/security.gpg
+    description: Report vulnerabilities in my software or infrastructure.
+  - address: abuse@stribik.technology
+    fingerprint: >
+      B3D6 1345 30BA CFD3 FA66<br/>
+      D024 3FC4 A8FF 52B9 1861
+    pubkey: /assets/about/abuse.gpg
+    description: Report attacks/spam/malware originated from this domain.
 github_username:  stribika
+mastodon:
+  - username: stribika
+    instance: infosec.exchange
+  - username: stribika
+    instance: cybervillains.com
 
 # Build settings
 markdown: kramdown

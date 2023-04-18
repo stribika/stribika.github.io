@@ -121,18 +121,18 @@
 }
 
 .footer-col-1 {
-    width: -webkit-calc(35% - (#{$spacing-unit} / 2));
-    width:         calc(35% - (#{$spacing-unit} / 2));
+    width: -webkit-calc(33% - (#{$spacing-unit} / 2));
+    width:         calc(33% - (#{$spacing-unit} / 2));
 }
 
 .footer-col-2 {
-    width: -webkit-calc(20% - (#{$spacing-unit} / 2));
-    width:         calc(20% - (#{$spacing-unit} / 2));
+    width: -webkit-calc(34% - (#{$spacing-unit} / 2));
+    width:         calc(34% - (#{$spacing-unit} / 2));
 }
 
 .footer-col-3 {
-    width: -webkit-calc(45% - (#{$spacing-unit} / 2));
-    width:         calc(45% - (#{$spacing-unit} / 2));
+    width: -webkit-calc(33% - (#{$spacing-unit} / 2));
+    width:         calc(33% - (#{$spacing-unit} / 2));
 }
 
 @include media-query($on-laptop) {
@@ -233,4 +233,44 @@
             font-size: 18px;
         }
     }
+}
+
+.button {
+	padding: 0.5em;
+	border: 1px;
+	border-radius: 0.5em;
+	border-style: solid;
+}
+
+#comment-section {
+	text-align: center;
+}
+
+#comment-section-visible {
+    display: none;
+}
+
+#comment-section-visible:target {
+    display: block;
+    width: 100%;
+    height: 100vh;
+	margin-bottom: $spacing-unit;
+    border: 1px;
+    border-style: solid;
+}
+
+a[href="#comment-section-visible"] {
+    display: inline;
+}
+
+#comment-section-visible:target ~ a[href="#comment-section-visible"] {
+    display: none;
+}
+
+a[href="#comment-section"] {
+    display: none;
+}
+
+#comment-section-visible:target ~ a[href="#comment-section"] {
+    display: inline;
 }

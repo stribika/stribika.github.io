@@ -17,7 +17,7 @@ body {
     font-family: $base-font-family;
     font-size: $base-font-size;
     line-height: $base-line-height;
-    font-weight: 300;
+    // font-weight: 300;
     color: $text-color;
     background-color: $background-color;
     -webkit-text-size-adjust: 100%;
@@ -35,7 +35,58 @@ ul, ol, dl, figure,
     margin-bottom: $spacing-unit / 2;
 }
 
+article.post-content h1 {
+    counter-increment: h1;
+    counter-reset: h2 h3 h4 h5 h6;
+}
 
+article.post-content h1::before {
+    content: counter(h1) ". ";
+}
+
+article.post-content h2 {
+    counter-increment: h2;
+    counter-reset: h3 h4 h5 h6;
+}
+
+article.post-content h2::before {
+    content: counter(h1) "." counter(h2) ". ";
+}
+
+article.post-content h3 {
+    counter-increment: h3;
+    counter-reset: h4 h5 h6;
+}
+
+article.post-content h3::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) ". ";
+}
+
+article.post-content h4 {
+    counter-increment: h4;
+    counter-reset: h5 h6;
+}
+
+article.post-content h4::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) ". ";
+}
+
+article.post-content h5 {
+    counter-increment: h5;
+    counter-reset: h6;
+}
+
+article.post-content h5::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) ". ";
+}
+
+article.post-content h5 {
+    counter-increment: h6;
+}
+
+article.post-content h5::before {
+    content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) ". ";
+}
 
 /**
  * Images
@@ -148,14 +199,22 @@ pre {
     }
 }
 
-
+.tag {
+    color: $grey-color-dark;
+    background-color: $grey-color-light;
+    border-radius: 1em;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    margin-left: 0.1em;
+    margin-right: 0.1em;
+}
 
 /**
  * Wrapper
  */
 .wrapper {
-    max-width: -webkit-calc(800px - (#{$spacing-unit} * 2));
-    max-width:         calc(800px - (#{$spacing-unit} * 2));
+    max-width: -webkit-calc(1000px - (#{$spacing-unit} * 2));
+    max-width:         calc(1000px - (#{$spacing-unit} * 2));
     margin-right: auto;
     margin-left: auto;
     padding-right: $spacing-unit;
@@ -163,8 +222,8 @@ pre {
     @extend %clearfix;
 
     @include media-query($on-laptop) {
-        max-width: -webkit-calc(800px - (#{$spacing-unit}));
-        max-width:         calc(800px - (#{$spacing-unit}));
+        max-width: -webkit-calc(1000px - (#{$spacing-unit}));
+        max-width:         calc(1000px - (#{$spacing-unit}));
         padding-right: $spacing-unit / 2;
         padding-left: $spacing-unit / 2;
     }
@@ -184,21 +243,105 @@ pre {
     }
 }
 
-
-
 /**
  * Icons
  */
 .icon {
-
     > svg {
         display: inline-block;
-        width: 16px;
-        height: 16px;
+        height: 1em;
         vertical-align: middle;
 
         path {
             fill: $grey-color;
         }
     }
+	> img {
+		display: inline-block;
+		height: 1em;
+		vertical-align: middle;
+	}
+}
+
+.fingerprint {
+	display: inline-block;
+	vertical-align: middle;
+	font-family: monospace;
+}
+
+.center20 {
+	display: block;
+	width: 20%;
+	margin: auto;
+}
+
+.center40 {
+	display: block;
+	width: 40%;
+	margin: auto;
+}
+
+.center60 {
+	display: block;
+	width: 60%;
+	margin: auto;
+}
+
+.center80 {
+	display: block;
+	width: 80%;
+	margin: auto;
+}
+
+article.external {
+  border-top: 1px solid $grey-color-light;
+  border-bottom: 1px solid $grey-color-light;
+
+  h2, h3 {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+	dl {
+		max-width: 500px;
+		margin-left: auto;
+		margin-right: auto;
+		border-radius: 4px;
+		overflow: hidden;
+		background-color: $grey-color-light;
+
+		dt {
+			border-top: 1px solid $grey-color;
+			padding-top: 2px;
+			padding-bottom: 2px;
+			padding-left: 4px;
+			padding-right: 4px;
+			font-size: small;
+			text-transform: uppercase;
+		}
+		
+		dt:first-child {
+			border-top: 0px;
+		}
+
+		dd {
+			border-bottom: 1px solid $grey-color;
+			padding-left: 4px;
+			padding-right: 4px;
+			font-size: smaller;
+		}
+		
+		dd:last-child {
+			border-bottom: 0px;
+		}
+	}
+}
+
+article.external:first-child {
+  border-top: 0px;
+}
+
+article.external:last-child {
+  border-bottom: 0px;
 }
