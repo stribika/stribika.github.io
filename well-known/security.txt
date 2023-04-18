@@ -1,0 +1,12 @@
+---
+layout: none
+permalink: .well-known/security.txt
+---
+
+Contact: mailto:security@stribik.technology
+Expires: 2033-03-07T00:00:00.000Z
+
+Canonical: https://blog.stribik.technology/.well-known/security.txt
+Encryption: https://blog.stribik.technology/assets/about/security.gpg
+Policy: https://blog.stribik.technology/security/
+Preferred-Languages: en, hu
