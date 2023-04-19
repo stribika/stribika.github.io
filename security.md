@@ -44,7 +44,7 @@ Low traffic denial of service is in scope but do you MUST NOT keep it going for 
 
 The reporting process is very simple.
 You SHALL send an email to [security@stribik.technology](mailto:security@stribik.technology), with enough information to identify and, if applicable, reproduce the issue.
-You SHOULD encrypt said email with the [public key](/assets/about/security.gpg) provided here, using S/MIME.
+You SHOULD encrypt said email with the [public key](/assets/about/security.gpg) provided here, using OpenPGP.
 If you do encrypt it, you MUST provide a reasonable way to obtain your public key.
 
 We SHALL reply within 24 hours.
